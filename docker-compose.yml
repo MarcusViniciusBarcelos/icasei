@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  bff:
+    build: ./bff
+    container_name: bff
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./bff:/app
+    networks:
+      - app-network
+
+  mf_drawer:
+    build: ./mf_drawer
+    container_name: mf_drawer
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./mf_drawer:/app
+    networks:
+      - app-network
+
+  mf_videos:
+    build: ./mf_videos
+    container_name: mf_videos
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./mf_videos:/app
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
