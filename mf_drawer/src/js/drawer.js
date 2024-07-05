@@ -43,10 +43,23 @@ function loadStyles(url) {
   document.head.appendChild(link);
 }
 
+async function updateFavoritesCount() {
+  try {
+    const response = await fetch('http://localhost:8000/api/favorites/list/');
+    const data = await response.json();
+    document.getElementById('favoritesCount').innerText = data.length;
+  } catch (error) {
+    console.error('Error fetching favorite videos count:', error);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', updateFavoritesCount);
+
 if (typeof module !== 'undefined' && module.exports) {
   module.exports = {
       loadContent,
       loadStyles,
       loadScript,
+      updateFavoritesCount,
   };
 }

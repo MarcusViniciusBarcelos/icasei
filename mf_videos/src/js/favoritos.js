@@ -43,6 +43,7 @@ console.log('Favoritos.js loaded');  // Log para verificar se o script está sen
                         if (response.ok) {
                             btn.closest('.video').remove();
                             console.log('Video removed from favorites');  // Debugging log
+                            updateFavoritesCount();
                         } else {
                             console.error('Failed to remove favorite:', response.statusText);
                         }
