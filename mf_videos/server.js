@@ -16,7 +16,13 @@ app.use('/css', express.static(path.join(__dirname, 'src/css')));
 app.use('/js', express.static(path.join(__dirname, 'src/js')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+  console.log('Serving videos.html');
+  res.sendFile(path.join(__dirname, 'public', 'videos.html'));
+});
+
+app.get('/favoritos.html', (req, res) => {
+  console.log('Serving favoritos.html');
+  res.sendFile(path.join(__dirname, 'public', 'favoritos.html'));
 });
 
 app.get('/search', async (req, res) => {
@@ -24,7 +30,6 @@ app.get('/search', async (req, res) => {
   const apiKey = process.env.YOUTUBE_API_KEY;
   const maxResults = req.query.maxResults || 20;
   const url = `https://www.googleapis.com/youtube/v3/search?part=snippet&type=video&q=${query}&maxResults=${maxResults}&key=${apiKey}`;
-
 
   try {
     const response = await axios.get(url);
