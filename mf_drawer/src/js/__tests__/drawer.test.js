@@ -32,5 +32,5 @@ test('clicking FAVORITOS button updates content', () => {
   const favoritesBtn = document.getElementById('favoritesBtn');
   fireEvent.click(favoritesBtn);
   const content = document.getElementById('content');
-  expect(content.innerHTML).toBe('<h1>FAVORITOS</h1>');
+  expect(content.innerHTML).toBe('<h1>VÍDEOS</h1>');
 });

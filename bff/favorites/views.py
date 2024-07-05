@@ -1,3 +1,4 @@
+import logging
 import os
 
 import requests  # type:ignore
@@ -11,6 +12,8 @@ from .serializers import FavoriteSerializer
 
 YOUTUBE_API_KEY = os.getenv('YOUTUBE_API_KEY')
 
+logger = logging.getLogger(__name__)
+
 
 class FavoriteViewSet(viewsets.ModelViewSet):
     queryset = Favorite.objects.all()
@@ -19,10 +22,13 @@ class FavoriteViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'], url_path='add', url_name='add')
     def add(self, request):
+        logger.info('Recebido pedido para adicionar favorito: %s', request.data)
         serializer = FavoriteSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
+            logger.info('Favorito adicionado com sucesso: %s', serializer.data)
             return Response(serializer.data, status=status.HTTP_201_CREATED)
+        logger.error('Erro ao adicionar favorito: %s', serializer.errors)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['delete'], url_path='remove', url_name='remove')
@@ -31,7 +37,7 @@ class FavoriteViewSet(viewsets.ModelViewSet):
         favorite.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-# View for searching videos
+# View para procurar os videos no YouTube
 @api_view(['GET'])
 def search_videos(request):
     query = request.GET.get('q')
